@@ -1,6 +1,5 @@
 import os
 
-MIME_TYPE = os.environ.get('MIME_TYPE', "application/octet-stream")
 BUCKET = os.environ.get('BUCKET', "my_bucket")
 AWS_REGION = os.environ.get("AWS_REGION", "us-east-1")
 AWS_SECRET = os.environ.get('AWS_SECRET', "the_secret_access_key")

@@ -5,7 +5,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from werkzeug import SharedDataMiddleware
 from hashlib import sha1
-from settings import DEBUG, AWS_ACCESS_KEY, AWS_SECRET, MIME_TYPE, BUCKET
+from settings import DEBUG, AWS_ACCESS_KEY, AWS_SECRET,  BUCKET
 from settings import ENGINE, PORT, CHUNK_SIZE, AWS_REGION
 from urllib import quote
 from datetime import datetime
@@ -90,6 +90,7 @@ def signing_key():
     filename = request.args['filename']
     filesize = request.args['filesize']
     last_modified = request.args['last_modified']
+    contenttype = request.args['contenttype'];
 
     data = {
         "date": date.isoformat(),
@@ -98,7 +99,7 @@ def signing_key():
         "region": AWS_REGION,
         "bucket": BUCKET,
         "backup_key": str(random.randint(1, 1000000)),
-        "content_type": MIME_TYPE,
+        "content_type": contenttype,
     }
 
     try:
@@ -169,7 +170,7 @@ def upload_action():
 @app.route("/")
 def index():
     return render_template('index.html', aws_access_key=AWS_ACCESS_KEY,
-                           mime_type=MIME_TYPE, bucket=BUCKET,
+                          bucket=BUCKET,
                            key=str(random.randint(1, 1000000)))
 
 
